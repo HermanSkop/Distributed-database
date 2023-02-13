@@ -1,4 +1,5 @@
-Subect: A distributed database
+
+A distributed database
 
 About:
     Overall:

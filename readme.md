@@ -1,4 +1,4 @@
-# A Distributed Database
+# Distributed Database
 
 ## About
 

@@ -1,41 +1,29 @@
+# A Distributed Database
 
-# A distributed database
+## About
 
-## About:
+### Overall
 
-    ### Overall:
-    
-        A distributed database consists of a set of processes located in the network. Each process hosts a
-        certain set of information (for simplicity we assume that it’s just one pair <key,value> per process).
-        Processes constitute a logical network, in which each process is connected with at leas one other
-        process in a network. The network is incrementally created by executing consecutive processes
-        (creation of consecutive nodes) and connecting them to the already existing network. After starting,
-        each process (except for the first one) connects to the network according to the assumed network
-        communication model and starts waiting for possible connections from new system components (next
-        added nodes) or from clients willing to reserve the resources. Communication with clients and newly
-        connected nodes uses the TCP protocol. Communication between the nodes during the database
-        operation use TCP. All database nodes are symmetric, i.e. they both keep their data and accept requests
-        from clients. A node may communicate only with the nodes to which it connected at the start or nodes which
-        connected to it later.
-        
-    ### More detailed:
-    
-        Once a node receives a request, it creates subprocess that handles it. Depending on operation, handler can create client thread and
-        pass operation and already visited nodes that could be received with operation. Created process sends operation, parameter and visited nodes to all
-        neighbours that are not yet visited. When operation reaches needed node (f.e. get-value 1:3 reaches node that contain key 1),
-        server returns some value to the client. Then ClientThread changes its status to this value. Server, that created the client process,
-        waiting for this change and once it happens, value is being returned further. Finally, first server outputs it to the console.
-    *More information can be found in documentation folder -> index.html.*
-## Formats:
-    The network node execution has the following form:
-        java -jar DatabaseNode.jar -tcpport <TCP port number> -record <key>:<value> [ -connect <address>:<port> ]
+A distributed database consists of a set of processes located in the network. Each process hosts a certain set of information (for simplicity, we assume that it's just one pair `<key,value>` per process). Processes constitute a logical network, in which each process is connected with at least one other process in the network. The network is incrementally created by executing consecutive processes (creation of consecutive nodes) and connecting them to the already existing network. After starting, each process (except for the first one) connects to the network according to the assumed network communication model and starts waiting for possible connections from new system components (next added nodes) or from clients willing to reserve the resources. Communication with clients and newly connected nodes uses the TCP protocol. Communication between the nodes during the database operation uses TCP. All database nodes are symmetric, i.e., they both keep their data and accept requests from clients. A node may communicate only with the nodes to which it connected at the start or nodes which connected to it later.
+
+### More Detailed
+
+Once a node receives a request, it creates a subprocess that handles it. Depending on the operation, the handler can create a client thread and pass the operation and already visited nodes that could be received with the operation. The created process sends the operation, parameter, and visited nodes to all neighbors that are not yet visited. When the operation reaches the needed node (e.g., `get-value 1:3` reaches a node that contains key 1), the server returns some value to the client. Then the `ClientThread` changes its status to this value. The server that created the client process waits for this change, and once it happens, the value is being returned further. Finally, the first server outputs it to the console.
+
+*More information can be found in the documentation folder -> index.html.*
+
+## Formats
+
+The network node execution has the following form:
+
+`java -jar DatabaseNode.jar -tcpport <TCP port number> -record <key>:<value> [ -connect <address>:<port> ]`
         where:
             • -tcpport <TCP port number> denotes the number of the TCP port, which is used to wait
             for connections from clients.
             • -record <key>:<value> denotes a pair of integers being the initial values stored in this
             node, where the first number is the key and the second is a value associated with this key.
             There is no uniqueness requirement, both to a key and a value.
-            • [ -connect <address>:<port> ] denotes a list of other nodes already in the network, to
+            • \[ -connect <address>:<port> \] denotes a list of other nodes already in the network, to
             which this node should connect and with which it may communicate to perform operations.
             This list is empty for the first node in the network.
     After the network is created, clients may be connected to it.

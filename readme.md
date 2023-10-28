@@ -2,7 +2,7 @@
 # A distributed database
 
 ## About:
-    ###Overall:
+    ### Overall:
         A distributed database consists of a set of processes located in the network. Each process hosts a
         certain set of information (for simplicity we assume that it’s just one pair <key,value> per process).
         Processes constitute a logical network, in which each process is connected with at leas one other
@@ -15,14 +15,14 @@
         operation use TCP. All database nodes are symmetric, i.e. they both keep their data and accept requests
         from clients. A node may communicate only with the nodes to which it connected at the start or nodes which
         connected to it later.
-    ###More detailed:
+    ### More detailed:
         Once a node receives a request, it creates subprocess that handles it. Depending on operation, handler can create client thread and
         pass operation and already visited nodes that could be received with operation. Created process sends operation, parameter and visited nodes to all
         neighbours that are not yet visited. When operation reaches needed node (f.e. get-value 1:3 reaches node that contain key 1),
         server returns some value to the client. Then ClientThread changes its status to this value. Server, that created the client process,
         waiting for this change and once it happens, value is being returned further. Finally, first server outputs it to the console.
     More information can be found in documentation folder -> index.html.
-##Formats:
+## Formats:
     The network node execution has the following form:
         java -jar DatabaseNode.jar -tcpport <TCP port number> -record <key>:<value> [ -connect <address>:<port> ]
         where:

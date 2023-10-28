@@ -17,47 +17,30 @@ Once a node receives a request, it creates a subprocess that handles it. Dependi
 The network node execution has the following form:
 
 `java -jar DatabaseNode.jar -tcpport <TCP port number> -record <key>:<value> [ -connect <address>:<port> ]`
-        where:
-            • -tcpport <TCP port number> denotes the number of the TCP port, which is used to wait
-            for connections from clients.
-            • -record <key>:<value> denotes a pair of integers being the initial values stored in this
-            node, where the first number is the key and the second is a value associated with this key.
-            There is no uniqueness requirement, both to a key and a value.
-            • \[ -connect <address>:<port> \] denotes a list of other nodes already in the network, to
-            which this node should connect and with which it may communicate to perform operations.
-            This list is empty for the first node in the network.
-    After the network is created, clients may be connected to it.
-    A client execution has the following form:
-        java DatabaseClient -gateway <address>:<TCP port number> -operation <operation with parameters>
-    After a client connects with the network node, it sends a single line message in the format:
-        <operation> [ <parameter> ]
-        Operations:
-            1. set-value <key>:<value> : set a new value (the second parameter) for the key being the
-            first parameter. The result of this operation is either an OK message if operation succeeded or
-            ERROR if the database contains no pair with a requested key value. If the database contains
-            more than 1 such pair, at least one must be altered.
-            2. get-value <key> : get a value associated with the key being the parameter. The result of
-            this operation is a message consisting of a pair <key>:<value> if operation succeeded or
-            ERROR if the database contains no pair with a requested key value. If the database contains
-            more than 1 such pair, only one pair must be returned (any valid).
-            3. find-key <key> : find the address and the port number of a node, which hosts a pair with
-            the key value given as the parameter. If such node exists, the answer is a pair
-            <address>:<port> identifying this node, or the message ERROR if no node has a key with
-            such a value. If the database contains more than 1 such node, only one pair must be returned
-            (any valid).
-            4. get-max : find the biggest value of all values stored in the database. The result is a pair
-            consisting of <key>:<value>. If the database contains more than 1 such pair, only one pair
-            must returned (any valid).
-            5. get-min : find the smallest value of all values stored in the database. The result is a pair
-            consisting of <key>:<value>. If the database contains more than 1 such pair, only one pair
-            must returned (any valid).
-            6. new-record <key>:<value> : remember a new pair key:value instead of the pair currently
-            stored in the node to which the client is connected. The result of this operation is the OK
-            message.
-            7. terminate : detaches the node from the database. The node must inform its neighbours
-            about this fact and terminate. The informed neighbours store this fact in their resources' and no
-            longer communicate with it. Just before the node terminates, it sends back the OK message to
-            a client.
 
-How to run?
-    Go to "Scripts" directory and run "test.bat" script for windows
+where:
+
+* `-tcpport <TCP port number>` denotes the number of the TCP port, which is used to wait for connections from clients.
+* `-record <key>:<value>` denotes a pair of integers being the initial values stored in this node, where the first number is the key and the second is a value associated with this key. There is no uniqueness requirement, both to a key and a value.
+* `[ -connect <address>:<port> ]` denotes a list of other nodes already in the network, to which this node should connect and with which it may communicate to perform operations. This list is empty for the first node in the network. After the network is created, clients may be connected to it.
+    
+A client execution has the following form:
+
+`java DatabaseClient -gateway <address>:<TCP port number> -operation <operation with parameters>`
+    
+After a client connects with the network node, it sends a single line message in the format:
+
+`<operation> [ <parameter> ]`
+
+Operations:
+1. `set-value <key>:<value>` : set a new value (the second parameter) for the key being the first parameter. The result of this operation is either an OK message if operation succeeded or ERROR if the database contains no pair with a requested key value. If the database contains more than 1 such pair, at least one must be altered.
+2. `get-value <key>` : get a value associated with the key being the parameter. The result of this operation is a message consisting of a pair <key>:<value> if operation succeeded or ERROR if the database contains no pair with a requested key value. If the database contains more than 1 such pair, only one pair must be returned (any valid).
+3. `find-key <key>` : find the address and the port number of a node, which hosts a pair with the key value given as the parameter. If such node exists, the answer is a pair <address>:<port> identifying this node, or the message ERROR if no node has a key with such a value. If the database contains more than 1 such node, only one pair must be returned (any valid).
+4. `get-max` : find the biggest value of all values stored in the database. The result is a pair consisting of <key>:<value>. If the database contains more than 1 such pair, only one pair must returned (any valid).
+5. `get-min` : find the smallest value of all values stored in the database. The result is a pair consisting of <key>:<value>. If the database contains more than 1 such pair, only one pair must returned (any valid).
+6. `new-record <key>:<value>` : remember a new pair key:value instead of the pair currently stored in the node to which the client is connected. The result of this operation is the OK message.
+7. `terminate` : detaches the node from the database. The node must inform its neighbours about this fact and terminate. The informed neighbours store this fact in their resources' and no longer communicate with it. Just before the node terminates, it sends back the OK message to a client.
+
+## How to run?
+
+Go to "Scripts" directory and run "test.bat" script for windows

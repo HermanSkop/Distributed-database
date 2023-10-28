@@ -8,7 +8,7 @@ A distributed database consists of a set of processes located in the network. Ea
 
 ### More Detailed
 
-Once a node receives a request, it creates a subprocess that handles it. Depending on the operation, the handler can create a client thread and pass the operation and already visited nodes that could be received with the operation. The created process sends the operation, parameter, and visited nodes to all neighbors that are not yet visited. When the operation reaches the needed node (e.g., `get-value 1:3` reaches a node that contains key 1), the server returns some value to the client. Then the `ClientThread` changes its status to this value. The server that created the client process waits for this change, and once it happens, the value is being returned further. Finally, the first server outputs it to the console.
+Once a node receives a request, it creates a subprocess that handles it. Depending on the operation, the handler can create a client thread and pass the operation and already visited nodes that could be received with the operation. The created process sends the operation, parameter, and visited nodes to all neighbors that are not yet visited. When the operation reaches the needed node (e.g., `get-value 1:3` reaches a node that contains key 1), the server returns some value to the client. Then the ClientThread changes its status to this value. The server that created the client process waits for this change, and once it happens, the value is being returned further. Finally, the first server outputs it to the console.
 
 *More information can be found in the documentation folder -> index.html.*
 

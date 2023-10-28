@@ -1,5 +1,5 @@
 
-A distributed database
+<h1>A distributed database</h1>
 
 About:
     Overall:
